@@ -1,0 +1,37 @@
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+    <a class="navbar-brand" href="#">
+       <img src="../img/logo.png" style="height: 25px;" />
+        Querye<span style="font-size:7px"> BETA</span>
+    </a>
+    <!--User not logged panel-->
+    <div class="navbar-right navbar-form" style="padding-right: 0px" ng-show="!isLogged">
+         <button data-toggle="modal" data-target="#modalLogin" class="btn btn-default"><span class="glyphicon glyphicon-user"> </span> Log In</button>
+         <button data-toggle="modal" data-target="#modalRegister" class="btn btn-default"><span class="glyphicon glyphicon-plus"> </span> Sign Up</button>
+    </div>
+    <!--User logged Panel-->
+    <div class="navbar-right navbar-form" style="padding-right: 0px" ng-show="isLogged">
+        <div class="btn-group">
+            <a href="#/questions" class="btn btn-default "><span class="glyphicon glyphicon-comment"></span> <span style="position: absolute; left:-10px; top:20px" class="badge" ng-show="unreadQuestions>0">{{unreadQuestions}}</span> </a>
+            <a href="#/answers" class="btn btn-default "><span class="glyphicon glyphicon-check"> </span>  <span style="position: absolute; left:-10px; top:20px" class="badge" ng-show="unreadAnswers>0">{{unreadAnswers}}</span> </a>
+            <a href="#/queryes" class="btn btn-default "><span class="glyphicon glyphicon-book"> </span>  </a>
+        </div>
+        <a href="#/points" class="btn btn-default "><span class="glyphicon glyphicon-certificate">{{currentUser.points}} </span>  </a>
+        <div class="btn-group">
+            <a href="/#/user/{{currentUser._id}}" class="btn btn-default">{{currentUser.username}}</a>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a ng-href="/#/profile/settings">Settings</a></li>
+                <li class="divider"></li>
+                <li><a href="#" ng-click="logout()">Log out</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+</nav>
+
+<!--Login and Register modals-->
+<div ng-include="'partials/modal-login.html'"></div>
+<div ng-include="'partials/modal-register.html'"></div>

@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <!--Type Tabs-->
+            <ul class="nav nav-tabs"  style="margin-bottom:10px">
+                <li class="active"><a ng-click="loadQueryes(0)" name="my" data-toggle="tab"><typeicon type="0" /></a></li>
+                <li><a ng-click="loadQueryes(1)" data-toggle="tab"><typeicon type="1" /></a></li>
+                <li><a ng-click="loadQueryes(2)" data-toggle="tab"><typeicon type="2" /></a></li>
+                <li><a ng-click="loadQueryes(3)" data-toggle="tab"><typeicon type="3" /></a></li>
+                <li><a ng-click="loadQueryes(4)" data-toggle="tab"><typeicon type="4" /></a></li>
+                <li><a ng-click="loadQueryes(5)" data-toggle="tab"><typeicon type="5" /></a></li>
+                <li><a ng-click="loadQueryes(6)" data-toggle="tab"><typeicon type="6" /></a></li>
+                <li><a ng-click="loadQueryes(7)" data-toggle="tab"><typeicon type="7" /></a></li>
+                <li><a ng-click="loadQueryes(8)" data-toggle="tab"><typeicon type="8" /></a></li>
+            </ul>
+            <!-- Display loading data info -->
+            <div clas="row" ng-show="isDataLoading">
+                <div class="col-lg-1 col-lg-offset-11">Loading...</div>
+            </div>
+            <!--Sort buttons-->
+            <span ng-show="allQueryes.length"><sortbuttons  option="sortValue"  /></span>
+            <div class="row"  style="margin-top:20px">
+                <div class="col-lg-6" ng-repeat="querye in allQueryes">
+                    <div class="panel panel-default">
+                        <div class="panel-body" style="word-wrap:break-word;">
+                            <a href="/#/querye/{{querye._id}}"><p style="color:#3b5998; font-size:14px; font-weight:bold">{{querye.title | textLengthFilter:80}}</p></a>
+                            {{querye.descr | textLengthFilter:50}}
+                        </div>
+                        <div class="panel-footer">
+                            <button ng-click="postQueryeVote(1,$index)" class="btn btn-default"
+                                    ng-class="{disabled: querye.up_voters.indexOf(currentUser) != -1}">
+                                {{querye.up_votes_count}} <span class="glyphicon glyphicon-thumbs-up"></span></button>
+                            <button ng-click="postQueryeVote(0,$index)" class="btn btn-default"
+                                    ng-class="{disabled: querye.down_voters.indexOf(currentUser) != -1}">
+                                {{querye.down_votes_count}} <span class="glyphicon glyphicon-thumbs-down"></span>
+                            </button>
+                            <button class="btn btn-default disabled">{{querye.questions_count}} <span class="glyphicon glyphicon-comment"/></button>
+                            <span class="pull-right"><a href="#/querye/{{querye._id}}"
+                                                        class="btn btn-default">Look </a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Load more button-->
+            <div class="row">
+                <div class="col-lg-6">
+                    <button class="btn btn-default" ng-show="allQueryes.length>=20" ng-click="loadMore()">Show more</button>
+                </div>
+            </div>
+            <!--Dsiplay info about no Queryes -->
+            <div class="row" ng-show="!allQueryes.length">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">no Queryes.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

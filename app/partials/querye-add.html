@@ -1,0 +1,95 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{{panelTitle}}</h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <h4 class="col-lg-offset-2 col-lg-10">Wybierz typ</h4>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Typ</label>
+                            <div class="col-lg-10">
+                               <typebuttons option="queryModel.type"></typebuttons>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10"><h4>Opis</h4></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Tytuł</label>
+
+                            <div class="col-lg-10">
+                                <input ng-model="queryModel.title" class="form-control" placeholder="Podaj tytuł..">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">Opis</label>
+
+                            <div class="col-lg-10">
+                                <textarea ng-model="queryModel.desc" class="form-control" rows="3"
+                                          placeholder="Podaj opis..."></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-lg-4 col-lg-offset-2">Kto może zobaczyć?</span>
+
+                            <div class="col-lg-6">
+                                <accessbuttons option="queryModel.settings.p_view"></accessbuttons>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-lg-4 col-lg-offset-2">Kto może zobaczyć pytania?</span>
+                            <div class="col-lg-6">
+                                <accessbuttons option="queryModel.settings.p_view_questions"></accessbuttons>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-lg-4 col-lg-offset-2">Kto może zobaczyć odpowiedzi? </span>
+
+                            <div class="col-lg-6">
+                                <accessbuttons option="queryModel.settings.p_view_answers"></accessbuttons>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-lg-4 col-lg-offset-2">Kto może zadawać pytania? </span>
+
+                            <div class="col-lg-6">
+                                <accessbuttons option="queryModel.settings.p_questions"></accessbuttons>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-lg-4 col-lg-offset-2">Kto może zobaczyć twoją nazwę użytkownika? </span>
+
+                            <div class="col-lg-6">
+                                <accessbuttons option="queryModel.settings.p_view_user"></accessbuttons>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-lg-4 col-lg-offset-2">Czy pytania będą publikowane po dodaniu?</span>
+                            <div class="col-lg-6">
+                                <visiblebuttons option="queryModel.settings.p_questions_publish"></visiblebuttons>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-2 col-lg-offset-2">
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button id="sendButton" data-loading-text="Wysyłanie..." class="btn btn-primary btn-lg"
+                    ng-click="sendQuerye()">{{btnText}}
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+</div>

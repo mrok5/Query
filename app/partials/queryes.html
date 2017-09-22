@@ -1,0 +1,53 @@
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span>Queryes</span>
+            <span class="pull-right"></span>
+        </div>
+        <ul class="nav nav-tabs" style="margin-bottom:30px">
+            <li class="active"><a ng-click="loadUserQueryes()" name="my" data-toggle="tab">My</a></li>
+            <li><a ng-click="loadFavoritesQueryes()" name="favorites" data-toggle="tab">Favorites</a></li>
+            <!--<li><a ng-click="loadDeletedQueryes()" name="trash" data-toggle="tab">Kosz</a></li>-->
+        </ul>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6" ng-repeat="querye in userQueryes">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">{{querye.title}}</div>
+                        <div class="panel-body" style="word-wrap:break-word;">{{querye.descr}}</div>
+                        <div class="panel-footer">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-wrench"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" ng-show="typeValue!='fav'">
+                                    <li><a href="#/querye/{{querye._id}}">Preview</a></li>
+                                    <li><a href="#/queryeedit/{{querye._id}}">Edit</a></li>
+                                    <li class="divider"></li>
+                                    <li><a ng-click="deleteQuerye(querye._id,$index)">Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Dsiplay info about no Queryes -->
+            <div class="row" ng-show="!userQueryes.length">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">no Queryes.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">        <a href="#/queryeadd" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Add querye</a></div>
+    </div>
+</div>
+
+
+
+
+
+

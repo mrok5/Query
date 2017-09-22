@@ -1,0 +1,128 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Moje konto</div>
+                <!--Tabs-->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#profile"  data-toggle="tab">Profil</a></li>
+                    <li><a href="#password" data-toggle="tab">Hasło</a></li>
+                    <li><a href="#settings" data-toggle="tab">Ustawienia</a></li>
+                </ul>
+                <!--Alert message-->
+                <div ng-show="alert!=null" class="alert alert-{{alert.type}} fade in" style="margin:20px">
+                    <button type="button" class="close" ng-click="closeAlert()" aria-hidden="true">×</button>
+                    <h4>{{alert.title}}</h4>
+                    <p>{{alert.message}}</p>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content" style="margin:100px 40px 100px 40px">
+                    <div class="tab-pane active" id="profile"><!--Profile-->
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="username">Nazwa użytkownika</label>
+
+                                    <div class="col-md-4">
+                                        <input ng-model="userData.username" id="username" name="username" type="text" placeholder="Nazwa użytkownika"
+                                               class="form-control input-md">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="username">Email</label>
+
+                                    <div class="col-md-4">
+                                        <input ng-model="userData.email" id="email" name="email" type="text" placeholder="Email"
+                                               class="form-control input-md">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="first_name">Imię</label>
+
+                                    <div class="col-md-4">
+                                        <input ng-model="userData.first_name" id="first_name" name="first_name" type="text" placeholder="Imię"
+                                               class="form-control input-md">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="last_name">Nazwsiko</label>
+                                    <div class="col-md-4">
+                                        <input ng-model="userData.last_name" id="last_name" name="last_name" type="text" placeholder="Nazwisko"
+                                               class="form-control input-md">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-6">
+                                        <button ng-class="{disabled: isDataLoading==true}" id="sendButton" data-loading-text="Wysyłanie..." class="btn btn-primary pull-right"
+                                                ng-click="saveProfile()">Zapisz zmiany
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="password">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="username">Stare hasło:</label>
+
+                                    <div class="col-md-4">
+                                        <input ng-model="userPassword.old" id="old" name="old" type="password" placeholder="Stare hasło"
+                                               class="form-control input-md">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="username">Nowe hasło:</label>
+
+                                    <div class="col-md-4">
+                                        <input ng-model="userPassword.new" id="new" name="new" type="password" placeholder="Nowe Hasło"
+                                               class="form-control input-md">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="first_name">Nowe hasło:</label>
+
+                                    <div class="col-md-4">
+                                        <input ng-model="userPassword.new2" id="new2" name="new2" type="password" placeholder="Powtórz nowe hasło"
+                                               class="form-control input-md">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2 col-md-offset-6">
+                                        <button ng-class="{disabled: isDataLoading==true}" id="passButton" data-loading-text="Wysyłanie..." class="btn btn-primary pull-right"
+                                                ng-click="savePassword()">Zmień hasło
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="settings">...</div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="col-lg-8">-->
+            <!--<div class="panel panel-primary">-->
+                <!--<div class="panel-heading">Profil</div>-->
+                <!--<div class="panel-body">-->
+                    <!--<h3>Nick:<span class="label label-primary" ng-hide="myValue">{{userData.username}}</span></h3>-->
+                    <!--&lt;!&ndash;<input type="text" name="userName" ng-model="user.name" required>&ndash;&gt;-->
+                    <!--<input type="text" placeholder="nick" id="nick" ng-model="user" ng-show="myValue" required>-->
+                    <!--<button ng-click="editQuestion()" id="editButton" class="btn btn-default" ng-hide="myValue">-->
+                        <!--</span> Edytuj nick-->
+                    <!--</button>-->
+                    <!--<button ng-click="sendUser()" id="sendButton" ng-show="myValue" class="btn btn-default"><span-->
+                            <!--class="glyphicon glyphicon-ok"></span> Zatwierdź-->
+                    <!--</button>-->
+                    <!--<button ng-click="cancelEdit()" ng-show="myValue" class="btn btn-default"><span-->
+                            <!--class="glyphicon glyphicon-remove"></span> Anuluj-->
+                    <!--</button>-->
+                    <!--</br>-->
+                    <!--<tt>user = {{user}}</tt>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>

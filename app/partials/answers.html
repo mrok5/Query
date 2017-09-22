@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Moje pytania</h2>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs" style="margin-bottom:30px">
+                <li class="active"><a name="answered" data-toggle="tab">Z odpowiedzią</a></li>
+                <li><a name="unanswered" data-toggle="tab">Bez odpowiedzi</a></li>
+            </ul>
+
+            <div ng-repeat="question in userQuestions">
+                <div class="row" id="question_{{$index}}">
+                    <div class="col-lg-8 ">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div>
+                                    <span>{{question.username}}</span>
+                                    <span class="pull-right">Dodane {{question.insert_date | dateFilter }} temu</span>
+                                </div>
+                            </div>
+                            <div class="panel-body" id='tekst2' ng-hide="myValue">
+                                {{question.body}}
+                            </div>
+							<input type="text" class="form-control" value="{{question.body}}" ng-show="myValue">
+                            <div class="panel-footer">
+                                <!--Votes buttons-->
+                                <button ng-click="postQuestionVote(1,$index)"
+                                        ng-class="{disabled: question.up_voters.indexOf(currentUser._id) != -1}"
+                                        class="btn btn-default">{{question.up_votes_count}} <span
+                                        class="glyphicon glyphicon-thumbs-up"></span></button>
+                                <button ng-click="postQuestionVote(0,$index)"
+                                        ng-class="{disabled: question.down_voters.indexOf(currentUser._id) != -1}"
+                                        class="btn btn-default">{{question.down_votes_count}} <span
+                                        class="glyphicon glyphicon-thumbs-down"></span></button>
+										
+										<button ng-click="editQuestion(querye._id,$index)" id="editButton" class="btn btn-default"ng-hide="myValue" ><span
+                                        class="glyphicon glyphicon-comment"></span> Edytuj
+                                </button>	
+										<!--Tryb edycji: <input type="checkbox" ng-model="checked">-->
+								<button ng-click="sendQuestion()" id="sendButton" ng-show="myValue" class="btn btn-default"><span
+                                        class="glyphicon glyphicon-ok"></span> Zatwierdź
+                                </button>
+							
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="question.answer" class="row" id="answer_{{$index}}">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">{{question.answer.body}}</div>
+                            <div class="panel-footer">
+                                <span class="pull-right">Dodane {{question.answer.insert_date | dateFilter }} temu</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Dsiplay info about no questions -->
+            <div class="row" ng-show="!userQuestions.length">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">Brak pytań.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

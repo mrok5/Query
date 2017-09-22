@@ -1,0 +1,165 @@
+<div class="container" ng-show="!isDataLoading" ng-hide="isErrorNotFound">
+    <!--Querye ROW-->
+    <div class="row" ng-show="currentQuerye.access!=false">
+            <div class="panel panel-default">
+                <div class="panel-body"  style="word-wrap:break-word;">
+                    <div style="margin-bottom: 10px">
+                        <span style="font-weight: bold; font-size: 16px; color: #3b5998">{{currentQuerye.title}}</span>
+                        <span class="pull-right">Added {{currentQuerye.insert_date | dateFilter}} ago by <a href="#/user/{{currentQuerye.user._id}}">{{currentQuerye.user.username}}</a></span>
+                    </div>
+                    {{currentQuerye.descr}}
+                </div>
+                <div class="panel-footer">
+                    <!--Ask question button-->
+                    <button ng-show="!isCurrentUserOwner" ng-hide="currentQuerye.settings.p_questions==0" ng-click="showArea()"
+                            class="btn btn-default"><span class="glyphicon glyphicon-comment"></span> Ask a question ({{currentQuerye.questions_count}})
+                    </button>
+                    <!--Vote up button-->
+                    <button ng-click="postQueryeVote(1)" class="btn btn-default"
+                            ng-class="{disabled: currentQuerye.up_voters.indexOf(currentUser) != -1}">
+                        {{currentQuerye.up_votes_count}}
+                        <span class="glyphicon glyphicon-thumbs-up"></span></button>
+                    <!--Vote down button-->
+                    <button ng-click="postQueryeVote(0)" class="btn btn-default"
+                            ng-class="{disabled: currentQuerye.down_voters.indexOf(currentUser) != -1}">
+                        {{currentQuerye.down_votes_count}}
+                        <span class="glyphicon glyphicon-thumbs-down"></span></button>
+                    <!--Favorites add button-->
+                    <button ng-click="postFavorites()" ng-class="{disabled: authService.favorites().indexOf(currentQuerye._id) != -1}" class="btn btn-default"><span
+                            class="glyphicon glyphicon-heart"></span></button>
+                      <span class="pull-right">
+                           <button ng-click="showInfo()" class="btn btn-default"><span class="glyphicon glyphicon-info-sign"></span></button>
+                      </span>
+
+                </div>
+            </div>
+
+
+    <!--Dsiplay info about no Access-->
+    <div class="row" ng-show="currentQuerye.access==false">
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <h1 ng-show="currentQuerye.type==0">Brak dostępu do Querye</h1>
+                    <h1 ng-show="currentQuerye.type==1">Dostęp tylko dla zarejestrowanych.</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--INFO PANEL-->
+    <div class="row" ng-show="showInfoPanel">
+        <div class="col-lg-4 col-lg-offset-8">
+            <div class="panel panel-success">
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><span>Widoczność Querye:</span><span class="pull-right"><accessicon type="currentQuerye.settings.p_view" /></span></li>
+                        <li class="list-group-item"><span>Widoczność pytań:</span><span class="pull-right"><accessicon type="currentQuerye.settings.p_view_questions" /></span></li>
+                        <li class="list-group-item"><span>Widoczność odpowiedzi:</span><span class="pull-right"><accessicon type="currentQuerye.settings.p_view_answers" /></span></li>
+                        <li class="list-group-item"><span>Zadawanie pytań:</span><span class="pull-right"><accessicon type="currentQuerye.settings.p_questions" /></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--ADD QUESTION ROW-->
+    <div class="row" ng-show="showTextArea">
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="panel panel-success">
+                <div class="panel-body"><textarea ng-model="question" class="form-control" rows="3"></textarea></div>
+                <div class="panel-footer">
+                    <button ng-click="postQuestion()" data-loading-text="Wysyłanie..." id="questionSendButton"
+                            class="btn btn-primary">Ask
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Questions panel-->
+    <div class="panel panel-default" ng-show="currentQuerye.access!=false">
+        <div class="panel-body">
+            <!--Tabs-->
+            <ul class="nav nav-tabs" style="margin-bottom:30px">
+                <li class="active"><a ng-click="loadQuestions('newst',false)" name="newst" data-toggle="tab">Newest</a>
+                </li>
+                <li><a ng-click="loadQuestions('best',false)" name="best" data-toggle="tab">Top</a></li>
+                <li ng-show="authorized"><a ng-click="loadQuestions('my',false)" name="best" data-toggle="tab">My</a></li>
+            </ul>
+
+            <!--Dsiplay info about no questions -->
+            <div class="row" ng-show="!currentQuerye.questions.length">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">No question.</div>
+                    </div>
+                </div>
+            </div>		
+
+            <!--Display Questions-->
+            <div ng-repeat="question in currentQuerye.questions">
+                <div class="row" id="question_{{$index}}">
+                    <div class="col-lg-8 col-lg-offset-1">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <span><a href="#/user/{{question.user._id}}">{{question.username}}</a></span>
+                                <span class="pull-right">Added {{question.insert_date | dateFilter }} ago.</span>
+                            </div>
+                            <div  ng-hide="myValue" class="panel-body" id='tekst'   style="word-wrap:break-word;">{{question.body}}</div>
+							<input type="text" class="form-control" value="{{question.body}}" ng-show="myValue">
+                            <div class="panel-footer">
+                                <button ng-show="isCurrentUserOwner && !question.answer"
+                                        ng-click="loadAnswerTextArea($index,question._id)" class="btn btn-default"><span
+                                        class="glyphicon glyphicon-comment"></span> Reply
+                                </button>
+                                <button ng-click="postQuestionVote(1,$index)"
+                                        ng-class="{disabled: question.up_voters.indexOf(currentUser) != -1}"
+                                        class="btn btn-default">{{question.up_votes_count}} <span
+                                        class="glyphicon glyphicon-thumbs-up"></span></button>
+                                <button ng-click="postQuestionVote(0,$index)"
+                                        ng-class="{disabled: question.down_voters.indexOf(currentUser) != -1}"
+                                        class="btn btn-default">{{question.down_votes_count}} <span
+                                        class="glyphicon glyphicon-thumbs-down"></span></button>
+										
+							   <button ng-click="editQuestion()" id="editButton" class="btn btn-default"ng-hide="myValue" ><span
+                                        class="glyphicon glyphicon-comment"></span> Edit
+                                </button>	
+								<!-- Tryb edycji: <input type="checkbox" ng-model="checked"> -->
+								<button ng-click="sendQuestion()" id="sendButton" ng-show="myValue" class="btn btn-default"><span
+                                        class="glyphicon glyphicon-ok"></span> Confirm
+                                </button>
+								
+                                <div class="pull-right" style="font-size:11px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Answer-->
+                <div ng-show="question.answer" class="row" id="answer_{{$index}}">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="panel panel-primary">
+                            <div class="panel-body"  style="word-wrap:break-word;">{{question.answer.body}}</div>
+                            <div class="panel-footer">
+                                <div>
+                                    <span><a href="#/user/{{currentQuerye.user._id}}">{{currentQuerye.user.username}}</a></span>
+                                    <span class="pull-right">Added{{question.answer.insert_date | dateFilter }} ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Load more button-->
+            <div class="row">
+                <div class="col-lg-6">
+                    <button type="button" ng-show="currentQuerye.questions.length>=20" class="btn btn-default" ng-click="loadMore()">SHow more</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+</div>

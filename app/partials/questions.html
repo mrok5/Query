@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">Questions for me</h2>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs" style="margin-bottom:30px">
+                <li class="active"><a name="unanswered" data-toggle="tab">without Answer</a></li>
+                <li><a name="answered" data-toggle="tab">with Answer</a></li>
+                <li><a name="all" data-toggle="tab">All</a></li>
+                <li><a name="spam" data-toggle="tab">Spam</a></li>
+            </ul>
+
+            <div ng-repeat="question in userQuestions">
+                <div class="row" id="question_{{$index}}">
+                    <div class="col-lg-8 ">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div>
+                                    <span>{{question.username}}</span>
+                                    <span class="pull-right">Added {{question.insert_date | dateFilter }} ago</span>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                {{question.body}}
+                            </div>
+                            <div class="panel-footer">
+                                <button ng-show="!question.answer" ng-click="loadAnswerTextArea($index,question._id)"
+                                        class="btn btn-default"><span
+                                        class="glyphicon glyphicon-comment"></span> Answer
+                                </button>
+
+                                <button ng-show="currentType!='spam'" ng-click="insertToSpam($index,question._id)" class="btn btn-default"><span
+                                        class="glyphicon glyphicon-remove"></span> Spam
+                                </button>
+								
+								<button ng-click="deleteUserQuestion(question._id,$index)" class="btn btn-default"><span
+                                        class="glyphicon glyphicon-remove"></span> Delete
+                                </button>
+							
+                                <!--Votes buttons-->
+                                <button ng-show="currentType=='spam'" ng-click="removeFromSpam($index,question._id)" class="btn btn-default"><span
+                                        class="glyphicon glyphicon-remove"></span> Restore
+                                </button>
+                                <!--Votes buttons-->
+                                <button ng-click="postQuestionVote(1,$index)"
+                                        ng-class="{disabled: question.up_voters.indexOf(currentUser._id) != -1}"
+                                        class="btn btn-default">{{question.up_votes_count}} <span
+                                        class="glyphicon glyphicon-thumbs-up"></span></button>
+                                <button ng-click="postQuestionVote(0,$index)"
+                                        ng-class="{disabled: question.down_voters.indexOf(currentUser._id) != -1}"
+                                        class="btn btn-default">{{question.down_votes_count}} <span
+                                        class="glyphicon glyphicon-thumbs-down"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="question.answer" class="row" id="answer_{{$index}}">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">{{question.answer.body}}</div>
+                            <div class="panel-footer">
+                                <span>{{currentUser.username}}</span>
+                                <span class="pull-right">Added {{question.answer.insert_date | dateFilter }} ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Dsiplay info about no questions -->
+            <div class="row" ng-show="!userQuestions.length">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-body">No questions.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
